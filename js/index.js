@@ -7,18 +7,16 @@ const passwordInput = document.querySelector(".password-input");
 const spinnerContainer = document.querySelector(".spinner-container");
 const loginBtn = document.querySelector(".login-btn");
 
-addToCartBtns.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    modal.style.display = "block";
-  });
-});
+const handleAddToCartClick = () => {
+  modal.style.display = "block";
+};
 
-closeBtn.addEventListener("click", () => {
+const handleCloseModalClick = () => {
   modal.style.display = "none";
   loginForm.reset();
-});
+};
 
-loginForm.addEventListener("submit", async (event) => {
+const handleLoginFormSubmit = async (event) => {
   event.preventDefault();
   const email = emailInput.value;
   const password = passwordInput.value;
@@ -53,4 +51,12 @@ loginForm.addEventListener("submit", async (event) => {
     spinnerContainer.style.display = "none";
     loginBtn.disabled = false;
   }
+};
+
+addToCartBtns.forEach((btn) => {
+  btn.addEventListener("click", handleAddToCartClick);
 });
+
+closeBtn.addEventListener("click", handleCloseModalClick);
+
+loginForm.addEventListener("submit", handleLoginFormSubmit);
