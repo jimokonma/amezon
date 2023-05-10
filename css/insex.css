@@ -35,7 +35,10 @@ nav a {
 main {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
+  margin: 0px auto;
 }
 
 .product {
@@ -44,6 +47,9 @@ main {
   text-align: center;
   border: 1px solid #ccc;
   padding: 20px;
+  width: 100%;
+  max-width: 200px;
+  min-width: 200px;
 }
 
 .product img {
@@ -141,4 +147,27 @@ footer p {
 
 .login-form button:hover {
   background-color: rgb(28, 28, 28);
+}
+
+.spinner-container {
+  display: none;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

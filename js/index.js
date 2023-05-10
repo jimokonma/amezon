@@ -1,10 +1,11 @@
-// Add to Cart Button Click Event
 const addToCartBtns = document.querySelectorAll(".product button");
 const modal = document.querySelector(".modal");
 const closeBtn = document.querySelector(".close-btn");
 const loginForm = document.querySelector(".login-form");
 const emailInput = document.querySelector(".email-input");
 const passwordInput = document.querySelector(".password-input");
+const spinnerContainer = document.querySelector(".spinner-container");
+const loginBtn = document.querySelector(".login-btn");
 
 addToCartBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
@@ -12,37 +13,44 @@ addToCartBtns.forEach((btn) => {
   });
 });
 
-// Close Modal Button Click Event
 closeBtn.addEventListener("click", () => {
   modal.style.display = "none";
   loginForm.reset();
 });
 
-// Login Form Submit Event
-loginForm.addEventListener("submit", (event) => {
+loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const email = emailInput.value;
   const password = passwordInput.value;
 
-  // Check if email and password are valid
-  if (email.trim() !== "" && password.trim() !== "") {
-    // Send email and password to server-side script
-    const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        // Show success message and close modal
-        alert(
-          "Login successful! Product added to cart. More information will be sent to your email."
-        );
-        modal.style.display = "none";
-        loginForm.reset();
+  // Show spinner
+  spinnerContainer.style.display = "block";
+  loginBtn.disabled = true;
+
+  try {
+    const response = await fetch(
+      "https://cadet-rivo.onrender.com/api/v1/user/signup",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
       }
-    };
-    xhttp.open("POST", "/save", true);
-    xhttp.setRequestHeader("Content-type", "application/json");
-    xhttp.send(JSON.stringify({ email, password }));
-  } else {
-    // Show error message
-    alert("Please enter a valid email and password.");
+    );
+    const data = await response.json();
+    if (response.ok) {
+      alert(
+        "Your product will be sent to you soon. Check your email for more details."
+      );
+    } else {
+      alert("Something went wrong.");
+    }
+  } catch (error) {
+    alert("Something went wrong.");
+  } finally {
+    // Hide spinner
+    spinnerContainer.style.display = "none";
+    loginBtn.disabled = false;
   }
 });
